@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Тест",
+    "content": "очень нужный тест",
+    "created_at": "2026-06-06T13:23:10.078020",
+    "is_private": true,
+    "author_username": "DanyaOs",
+    "category_name": "Статьи",
+    "tags": [
+      "аниме",
+      "клипы",
+      "чебуреки"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "ывапывапвы",
+    "content": "ваыпывапыв",
+    "created_at": "2026-06-06T13:23:41.802095",
+    "is_private": false,
+    "author_username": "DanyaOs",
+    "category_name": "Новости",
+    "tags": [
+      "аниме",
+      "клипы",
+      "чебуреки"
+    ]
+  }
+]
