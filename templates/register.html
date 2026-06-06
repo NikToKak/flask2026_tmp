@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Блок управления</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1, h2 {
+            color: #1e2a3a;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+        .user-info {
+            background: #eef2ff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+        .user-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .user-info a:hover {
+            text-decoration: underline;
+        }
+        form {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        input[type="submit"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+        .error {
+            color: #e53e3e;
+            font-size: 13px;
+            display: block;
+            margin-top: 4px;
+        }
+        .success-message {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        th {
+            background: #1e2a3a;
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        tr:hover {
+            background: #f7fafc;
+        }
+        hr {
+            margin: 30px 0;
+            border: none;
+            height: 1px;
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Управление пользователями</h1>
+        <div class="user-info">
+            <span>Вы вошли как: <strong>{{ session.username }}</strong></span>
+            <a href="{{ url_for('logout') }}">Выйти</a>
+        </div>
+
+        <h2>Создание нового пользователя</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="success-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <p>
+                {{ form.username.label }}<br>
+                {{ form.username(size=32) }}
+                {% for error in form.username.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(size=32) }}
+                {% for error in form.password.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.confirm.label }}<br>
+                {{ form.confirm(size=32) }}
+                {% for error in form.confirm.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </p>
+
+            <p>{{ form.submit() }}</p>
+        </form>
+
+        <hr>
+
+        <h2>Список пользователей</h2>
+        <table border="0">
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Дата регистрации</th>
+                    <th>Последний вход</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_id, user in users.items() %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.registered_at[:10] if user.registered_at else '-' }}</td>
+                    <td>{{ user.last_login[:10] if user.last_login else 'Никогда' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
