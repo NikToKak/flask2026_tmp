@@ -1,0 +1,5 @@
+def sum_list(arr):
+    total = 0
+    for x in arr:
+        total = total + x
+    return total

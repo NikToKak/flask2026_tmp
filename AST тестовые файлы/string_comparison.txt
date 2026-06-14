@@ -1,0 +1,5 @@
+answer = input()
+if answer == "yes":
+    print("OK")
+else:
+    print("No")
