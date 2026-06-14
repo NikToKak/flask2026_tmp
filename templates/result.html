@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h2>Result for: {{ history.original_filename }}</h2>
+        <p><strong>Generated C code:</strong></p>
+        <pre class="bg-light p-3 border rounded"><code>{{ content }}</code></pre>
+        <a href="{{ url_for('download', filename=history.result_filename) }}" class="btn btn-primary">Download .txt file</a>
+        <a href="{{ url_for('history') }}" class="btn btn-secondary">Back to History</a>
+    </div>
+</div>
+{% endblock %}

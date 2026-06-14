@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your translation history</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Original file</th>
+            <th>Preview (first 200 chars)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in histories %}
+        <tr>
+            <td>{{ h.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ h.original_filename }}</td>
+            <td><code>{{ h.result_preview }}</code></td>
+            <td>
+                <a href="{{ url_for('result', history_id=h.id) }}" class="btn btn-sm btn-info">View</a>
+                <a href="{{ url_for('download', filename=h.result_filename) }}" class="btn btn-sm btn-secondary">Download</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No translations yet. Upload a file on the main page.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('index') }}" class="btn btn-primary">New translation</a>
+{% endblock %}

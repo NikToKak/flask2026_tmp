@@ -1,0 +1,13 @@
+int main() {
+    double answer;
+    double input;
+    double print;
+    answer = malloc(256);
+    fgets(answer, 256, stdin);
+    { char *p = strchr(answer, '\n'); if (p) *p = 0; }
+    if ((strcmp(answer, "yes") == 0)) {
+        printf("%s\n", "OK");
+    } else {
+        printf("%s\n", "No");
+    }
+}

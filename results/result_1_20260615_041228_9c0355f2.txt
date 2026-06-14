@@ -1,0 +1,14 @@
+int main() {
+    double input;
+    double int;
+    double n;
+    double print;
+    double s;
+    s = 0;
+    scanf("%d", &n);
+    while ((n != 0)) {
+        s = (s + n);
+        scanf("%d", &n);
+    }
+    printf("%f\n", s);
+}
