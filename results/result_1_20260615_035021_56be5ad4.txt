@@ -1,1 +1,0 @@
-// Translation error: Цель присваивания <class 'ast.Tuple'>
