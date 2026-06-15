@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Управление тегами</h2>
+<p><a href="{{ url_for('tag_create') }}">➕ Создать новый тег</a></p>
+
+{% if tags %}
+    <table>
+        <thead>
+            <tr>
+                <th>Название тега</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tag in tags %}
+            <tr>
+                <td>{{ tag.name }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('tag_delete', id=tag.id) }}" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Удалить тег «{{ tag.name }}»? Все связи с постами будут потеряны.')">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Тегов пока нет. Создайте первый тег.</p>
+{% endif %}
+{% endblock %}

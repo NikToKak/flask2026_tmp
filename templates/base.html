@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Блог</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background: #f0f2f5; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        nav a { margin-right: 10px; }
+        .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #c6f6d5; color: #22543d; }
+        .danger { background: #fed7d7; color: #c53030; }
+        .warning { background: #feebc8; color: #975a16; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #1e2a3a; color: white; }
+        .post-meta { font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Мой блог</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Главная</a>
+            {% if session.user_id %}
+                <a href="{{ url_for('post_create') }}">Новый пост</a>
+                <a href="{{ url_for('categories_list') }}">Категории</a>
+                <a href="{{ url_for('tags_list') }}">Теги</a>
+                <a href="{{ url_for('logout') }}">Выйти ({{ session.username }})</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Вход</a>
+                <a href="{{ url_for('register') }}">Регистрация</a>
+            {% endif %}
+        </nav>
+        <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for cat, msg in messages %}
+                <div class="flash {{ cat }}">{{ msg }}</div>
+            {% endfor %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
