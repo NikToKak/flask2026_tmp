@@ -90,7 +90,9 @@ def upload():
             result_code = process_python_to_c(source_code)
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             result_filename = f"result_{current_user.id}_{timestamp}_{uuid.uuid4().hex[:8]}.txt"
-            result_path = os.path.join(app.config['RESULT_FOLDER'], result_filename)
+            user_folder = os.path.join(app.config['RESULT_FOLDER'], str(current_user.id))
+            os.makedirs(user_folder, exist_ok=True)
+            result_path = os.path.join(user_folder, result_filename)
             with open(result_path, 'w', encoding='utf-8') as f:
                 f.write(result_code)
             preview = result_code[:200] + ('...' if len(result_code) > 200 else '')
@@ -114,7 +116,8 @@ def result(history_id):
     history = History.query.get_or_404(history_id)
     if history.user_id != current_user.id:
         abort(403)
-    result_path = os.path.join(app.config['RESULT_FOLDER'], history.result_filename)
+    user_folder = os.path.join(app.config["RESULT_FOLDER"], str(history.user_id))
+    result_path = os.path.join(user_folder, history.result_filename)
     if not os.path.exists(result_path):
         abort(404)
     with open(result_path, 'r', encoding='utf-8') as f:
@@ -128,7 +131,8 @@ def download(filename):
     history = History.query.filter_by(result_filename=filename).first()
     if not history or history.user_id != current_user.id:
         abort(403)
-    filepath = os.path.join(app.config['RESULT_FOLDER'], filename)
+    user_folder = os.path.join(app.config["RESULT_FOLDER"], str(history.user_id))
+    filepath = os.path.join(user_folder, filename)
     if not os.path.exists(filepath):
         abort(404)
     return send_file(filepath, as_attachment=True, download_name=filename)
