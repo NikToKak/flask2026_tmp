@@ -140,7 +140,7 @@ def download(filename):
 @app.route('/history')
 @login_required
 def history():
-    user_histories = History.query.filter_by(user_id=current_user.id).order_by(History.created_at.desc()).all()
+    user_histories = History.query.filter_by(user_id=current_user.id).order_by(History.created_at.desc()).all()[:10]
     return render_template('history.html', histories=user_histories)
 
 if __name__ == '__main__':
